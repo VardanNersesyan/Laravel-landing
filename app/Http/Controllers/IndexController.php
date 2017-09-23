@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailClass;
 use Illuminate\Http\Request;
 use App\Page;
 use App\Service;
 use App\Portfolio;
 use App\People;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use Mail;
 
 class IndexController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function execute(Request $request)
     {
         if( $request->isMethod('post') ) {
@@ -28,16 +33,9 @@ class IndexController extends Controller
             /*
              *@todo Create mail sender
              * */
-            $result = true;
-            /*$result = \Mail::send('site.email',['data'=>$data],function ($message) use ($data) {
-                $mail_admin = env('MAIL_ADMIN');
-                $message
-                    ->to($mail_admin)
-                    ->from($data['email'],$data['name'])
-                    ->subject('Question');
-            });*/
+            if( Mail::to(env('MAIL_ADMIN'))
+                ->send(new MailClass($data['name'],$data['email'],$data['text'])) ) {
 
-            if($result) {
                 return redirect()->route('home')->with('status', 'email is send');
             }
 
