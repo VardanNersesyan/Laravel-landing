@@ -32,12 +32,8 @@ class IndexController extends Controller
             if( Mail::to(env('MAIL_ADMIN'))
                 ->send(new MailClass($data['name'],$data['email'],$data['text'])) ) {
 
-                return redirect()->route('home')->with('error', 'email is send');
+                return redirect()->route('home')->with('status', 'email is send');
             }
-            else {
-                return redirect()->route('home')->with('status-error', 'email is not send');
-            }
-
         }
 
         $pages = Page::all();
