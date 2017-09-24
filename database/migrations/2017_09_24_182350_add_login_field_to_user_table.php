@@ -14,8 +14,8 @@ class AddLoginFieldToUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('Login',16)->default('');
-            $table->unique('Login');
+            $table->string('login',16)->default('');
+            $table->unique('login');
 
         });
     }
